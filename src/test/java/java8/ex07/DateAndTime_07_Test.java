@@ -3,8 +3,12 @@ package java8.ex07;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import org.junit.Test;
@@ -18,13 +22,18 @@ public class DateAndTime_07_Test {
 	public void test_date_to_localdate() throws Exception {
 
 		// TODO Créer une date Java 1 (12/02/2017)
-		Date date = null;
+		Date date = new Date(117,1,12);
 
 		// TODO transformer la date en Instant
+		Instant instant= date.toInstant();
 
 		// TODO transformer la date en LocalDate
+		LocalDateTime localDateTime= LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+		
 
-		LocalDate result = null;
+		LocalDate result = LocalDate.of(localDateTime.getYear(),localDateTime.getMonth(),localDateTime.getDayOfMonth());
+		result.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		
 
 		// TODO valoriser les différentes variables afin de rendre le test passant
 
