@@ -4,8 +4,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.OptionalDouble;
+import java.util.stream.Collectors;
 
 import org.junit.Test;
 
@@ -24,8 +26,8 @@ public class Stream_02_Test {
 		List<Order> orders = new Data().getOrders();
 
 		// TODO Trouver la liste des clients associés aux différentes commandes
-		List<Customer> result = null;
-
+		List<Customer> result = orders.stream().map(o->o.getCustomer()).collect(Collectors.toList());
+		
 		assertThat(result, hasSize(8));
 	}
 
@@ -35,8 +37,8 @@ public class Stream_02_Test {
 		List<Order> orders = new Data().getOrders();
 
 		// TODO Trouver la liste des clients associés aux différentes commandes
-		long result = 0;
-
+		long result = orders.stream().map(o->o.getCustomer()).count();
+	
 		assertThat(result, is(8L));
 	}
 
@@ -46,8 +48,8 @@ public class Stream_02_Test {
 		List<Order> orders = new Data().getOrders();
 
 		// TODO Trouver la liste des différents clients associés aux commandes
-		List<Customer> result = null;
-
+		List<Customer> result = orders.stream().map(o->o.getCustomer()).distinct().collect(Collectors.toList());
+	
 		assertThat(result, hasSize(2));
 	}
 
@@ -57,8 +59,8 @@ public class Stream_02_Test {
 		List<Order> orders = new Data().getOrders();
 
 		// TODO Compter le nombre des différents clients associés aux commandes
-		long result = 0L;
-
+		long result = orders.stream().map(o->o.getCustomer()).distinct().count();
+	
 		assertThat(result, is(2L));
 	}
 
@@ -71,8 +73,8 @@ public class Stream_02_Test {
 		 * TODO Calculer le chiffre d'affaires total de la pizzeria (somme des prix des
 		 * commandes)
 		 */
-		double result = 0.0;
-
+		double result = orders.stream().map(o->o.getPrice()).reduce(0.0,(o,o1)->o+o1);
+		
 		assertThat(result, is(10900.0));
 	}
 
@@ -85,8 +87,8 @@ public class Stream_02_Test {
 		 * TODO Calculer le chiffre d'affaires total de la pizzeria (somme des prix des
 		 * commandes)
 		 */
-		OptionalDouble result = null;
-
+		OptionalDouble result = orders.stream().mapToDouble(o->o.getPrice()).average();
+	
 		assertThat(result.isPresent(), is(true));
 		assertThat(result.getAsDouble(), is(1362.5));
 	}
